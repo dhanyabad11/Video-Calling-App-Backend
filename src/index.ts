@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
 import roomHandler from "./handlers/roomHandler";
+import { PeerServer } from "peer";
 
 const app = express();
 
@@ -11,7 +12,14 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
+// Create PeerJS server
+PeerServer({
+    port: 9000,
+    path: '/myapp',
+    key: 'peerjs'
+});
+
+console.log("PeerJS server running on port 9000");const io = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
